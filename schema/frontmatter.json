@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://netie.local/schema/frontmatter.json",
+  "title": "Netie KB frontmatter",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "kind",
+    "title",
+    "status",
+    "severity",
+    "tags",
+    "origin",
+    "occurrences",
+    "related",
+    "supersedes"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[RWFAS]-\\d{4}$"
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["rule", "workflow", "finding", "attack", "skill"]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "unverified", "superseded", "archived"]
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low"]
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "origin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["date", "repo", "incident"],
+      "properties": {
+        "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "repo": { "type": "string" },
+        "incident": { "type": "string" }
+      }
+    },
+    "occurrences": { "type": "integer", "minimum": 0 },
+    "enforced_by": { "type": ["string", "null"] },
+    "related": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[RWFAS]-\\d{4}$" }
+    },
+    "supersedes": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[RWFAS]-\\d{4}$" }
+    }
+  }
+}
