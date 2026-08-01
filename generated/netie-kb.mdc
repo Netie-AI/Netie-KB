@@ -56,6 +56,8 @@ Include: expected vs actual, repro steps, root cause CLASS, which invariant shou
 
 **R-0012** - **Corpus text** (titles, bodies, incident strings, templates): laptop-ASCII only.
 
+**R-0013** - Every document in the estate belongs to exactly one of eight tiers. There is no ninth,
+
 ## Subagents
 Preflight findings INDEX + `kb.py search`. HIT -> smaller agent.
 

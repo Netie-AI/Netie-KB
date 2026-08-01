@@ -98,6 +98,47 @@ Do not rely on `PYTHONUTF8=1` alone.
 **Agents** writing rules, workflows, findings, attacks, or skills must follow this forever.
 `kb.py validate` rejects forbidden characters.
 
+### R-0013 - Every document belongs to one of eight tiers - no sixth file type per repo
+
+Every document in the estate belongs to exactly one of eight tiers. There is no ninth,
+and no repo may invent a sixth per-repo file type.
+
+| Tier | Artifact | ID | Lives |
+|---|---|---|---|
+| 0 | Constitution | none | `D:\Netie\NETIE.md` |
+| 1 | Roadmap | none | `STATUS.md` Now/Next/Later block |
+| 2 | White paper | `WP-###` | `D:\Netie\White Paper - Why\` |
+| 3 | PRD | `PRD-###` | `D:\Netie\Software Blueprint\<Product>\` |
+| 4 | TAS | `TAS-<PRODUCT>` | `D:\Netie\TAS\` |
+| 5 | Decision record | `DR-####` | `<repo>/docs/decisions/` |
+| 6 | Epic | `EPIC-###` | GitHub Issue, label `epic` |
+| 7 | Ticket | GitHub number | GitHub Issue in the executing repo |
+
+Per repo, exactly five files: `CLAUDE.md` (law), `docs/ACTIVE.md` (map), `STATUS.md`
+(state, capped at 60 lines), `CHANGELOG.md` (history, append-only), `PARKING_LOT.md`
+(deferred, every entry carries an unlock condition). Everything else is generated,
+reference, or archived under `docs/bin/`.
+
+**No per-agent files.** Never `CLAUDE_HANDOFF.md` / `CURSOR_HANDOFF.md`. Agents do not
+need different truth, they need the same truth plus a role.
+
+**No per-session files.** The answer to "what filename do I store this session in" is:
+none. Update `STATUS.md`, and file a KB finding if something reusable was learned.
+
+**No dates in filenames** outside an archive folder. A dated filename is a snapshot
+pretending to be a document.
+
+**IDs are never reused** - not after deletion, not after supersession.
+
+**RFC and ADR are one document.** Open a decision record with `status: proposed` as a
+pull request; the PR is the RFC and the thread is the review. On merge, flip to
+`accepted`. Statuses are `proposed | accepted | superseded by DR-NNNN`, and superseded
+records are kept, never deleted.
+
+**Netie-KB is the distillation record, not the ticket system.** Tickets are GitHub
+Issues. A ticket may cite a rule; a finding may become a rule; a rule may be the
+`Confirmation` of a decision record. Tickets never live in the KB.
+
 ## Subagents (Netie/Cortex lanes)
 Preflight `docs/subagents_findings` + KB search. Emit `PREFLIGHT: HIT|PARTIAL|MISS`.
 HIT -> smaller agent + cited files. Record workflows under `~\.claude\workflows\`.
