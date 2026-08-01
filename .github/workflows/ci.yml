@@ -15,7 +15,19 @@ jobs:
           python-version: "3.12"
       - run: pip install -r requirements.txt
       - run: python scripts/kb.py validate
+      - run: python scripts/kb.py search "n>=300" --limit 5
       - run: python scripts/kb.py index
       - run: git diff --exit-code INDEX.md
       - run: python scripts/kb.py render
       - run: git diff --exit-code generated/
+
+  search-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python scripts/kb.py search "exclusion envelope drillthrough demo corpus" --limit 10
+      - run: python scripts/kb.py search "n>=300" --limit 5

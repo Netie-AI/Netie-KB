@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Netie Knowledge Base CLI — search, index, render, validate."""
+"""Netie Knowledge Base CLI - search, index, render, validate."""
 
 from __future__ import annotations
 
@@ -16,6 +16,12 @@ from typing import Any
 
 import yaml
 
+_SCRIPTS = Path(__file__).resolve().parent
+if str(_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS))
+from corpus_ascii import check_corpus_text
+from stdio_utf8 import ensure_utf8_stdio
+
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_PATH = ROOT / "schema" / "frontmatter.json"
 KIND_DIRS = {
@@ -29,14 +35,22 @@ KIND_PREFIX = {"rule": "R", "workflow": "W", "finding": "F", "attack": "A", "ski
 SEVERITY_ORDER = {"critical": 0, "high": 1, "medium": 2, "low": 3}
 
 SESSION_PROTOCOL = """\
-## Session protocol
+## Netie domain protocol
 
-**START:** `python D:\\Netie-KB\\scripts\\kb.py search "<keywords>"` — report in three lines:
+Use this block only when the workspace is Netie-KB, or the task is KB / distill /
+cross-project orchestration learning. Global habits live in Cursor
+`00-global-operating.mdc` (ADHD talk, Ponytail code, repo-root findings).
+
+**START:** `python D:\\Netie-KB\\scripts\\kb.py search "<keywords>"` - three lines:
 which rules apply, which workflow covers this shape, which attacks are proven here.
-Follow an existing workflow rather than re-deriving. Use a small model for this step.
+Follow an existing workflow rather than re-deriving.
 
-**END:** file ≥1 finding (`kb.py new finding`). "Nothing new — R-#### held" is valid.
+**END:** file >=1 finding (`kb.py new finding`). "Nothing new - R-#### held" is valid.
 Include: expected vs actual, repro steps, root cause CLASS, which invariant should have caught it.
+
+**Distill-session** (Claude Code / Cursor / Claude.app internals): open
+`skill_distill/DISTILL.md`, capture under `skill_distill/captures/`, run
+`python scripts/distill_ingest.py`, park deferred items with `cite: distill:`.
 """
 
 
@@ -124,6 +138,13 @@ def cmd_validate(_: argparse.Namespace) -> int:
     errors: list[str] = []
     for art in iter_artifacts():
         errors.extend(f"{art.path}: {e}" for e in validate_meta(art.meta, schema))
+        title = str(art.meta.get("title", ""))
+        errors.extend(f"{art.path}: {e}" for e in check_corpus_text(title, "title"))
+        origin = art.meta.get("origin")
+        if isinstance(origin, dict):
+            incident = str(origin.get("incident", ""))
+            errors.extend(f"{art.path}: {e}" for e in check_corpus_text(incident, "origin.incident"))
+        errors.extend(f"{art.path}: {e}" for e in check_corpus_text(art.body, "body"))
     if errors:
         for err in errors:
             print(err, file=sys.stderr)
@@ -185,7 +206,7 @@ def cmd_search(args: argparse.Namespace) -> int:
     for score, art in results[:limit]:
         print(
             f"{art.id} [{art.meta.get('status')}] "
-            f"({art.meta.get('severity')}) score={score} — {art.meta.get('title')}"
+            f"({art.meta.get('severity')}) score={score} - {art.meta.get('title')}"
         )
     if not results:
         print("no matches")
@@ -307,7 +328,7 @@ def cmd_index(_: argparse.Namespace) -> int:
             tag_counter[str(tag)] += 1
 
     lines = [
-        "# Netie KB — INDEX",
+        "# Netie KB - INDEX",
         "",
         f"_Generated {date.today().isoformat()} by `kb.py index`. Do not hand-edit._",
         "",
@@ -329,7 +350,7 @@ def cmd_index(_: argparse.Namespace) -> int:
             sev = art.meta.get("severity")
             title = art.meta.get("title")
             tags = ", ".join(art.meta.get("tags", []))
-            lines.append(f"- **{art.id}** `{st}` `{sev}` — {title} ({tags})")
+            lines.append(f"- **{art.id}** `{st}` `{sev}` - {title} ({tags})")
         lines.append("")
 
     lines.append("## Tag cloud")
@@ -344,28 +365,68 @@ def cmd_index(_: argparse.Namespace) -> int:
     return 0
 
 
+GLOBAL_USER_RULES = """\
+# Global Cursor user rules (paste into Settings -> Rules -> User Rules)
+
+Not Cortex-only. Cortex/DMS laws stay in those repos.
+
+## Talk (i-have-adhd, always)
+
+1. First line = action/fix/answer. No greetings.
+2. Number multi-step work. Cap lists at 5.
+3. Restate each turn: `Step N of M done: ... Next: ...`
+4. Time in real minutes. Errors = cause + fix.
+5. Laptop-ASCII only: `-` `--` `>=` `<=` `->` - no em dash or fancy glyphs.
+6. No preamble, no recap, no "hope this helps."
+
+## Code (ponytail full, always)
+
+YAGNI ladder before any write: need it? already here? stdlib? native?
+installed dep? one line? then minimum. Read the flow first. Never skip
+security / data-loss handling / what the user asked for.
+
+## Research + findings
+
+Before Task/subagent: read `docs/subagents_findings/INDEX.md`, emit
+`PREFLIGHT: HIT|PARTIAL|MISS`. Store every return with keywords + main_idea.
+Prefer careful reading over spawn spam.
+
+## Repo-root KB habit
+
+Non-trivial repos keep local rules/findings under repo root or `docs/`.
+Promote survivors. Do not re-derive known traps.
+
+## Domains
+
+- Netie/KB/distill -> `netie-kb.mdc` + `D:\\Netie-KB` (`kb.py search`)
+- Cortex/DMS/OpenVault -> that repo's `.cursor/rules` and CLAUDE.md only
+"""
+
+
 def render_claude_md(rules: list[Artifact]) -> str:
     lines = [
-        "# Netie — global rules (Claude Code)",
+        "# Netie domain rules (Claude Code)",
         "",
-        "_Generated by `kb.py render`. Do not hand-edit — edit `D:\\Netie-KB\\rules\\`._",
+        "_Generated by `kb.py render`. Do not hand-edit - edit `D:\\Netie-KB\\rules\\`._",
         "",
-        "## Context",
-        "Cortex `D:\\Cortex` = engine. DMS `D:\\DMS` = HTTP consumer (never imports CortexOS).",
-        "OpenVault `D:\\OpenVault` = keys/gate/FreeRoute. KB: `D:\\Netie-KB`.",
-        "Home: `C:\\Users\\OoiJianHong\\.claude\\`. Models: **Opus** (plan/judge) · **Fable** (execute).",
+        "## Scope",
+        "Domain pack for Netie-KB / distill / cross-project agentic learning.",
+        "Global talk+code habits are NOT here - keep those in Cursor/Claude globals.",
+        "Cortex engine laws stay in `D:\\Cortex` (import boundaries, contract freezes).",
+        "",
+        "Paths: Cortex `D:\\Cortex`, DMS `D:\\DMS`, OpenVault `D:\\OpenVault`, KB `D:\\Netie-KB`.",
+        "Claude home: `C:\\Users\\OoiJianHong\\.claude\\`. Models: Opus (plan/judge), Fable (execute).",
         "",
         SESSION_PROTOCOL,
         "",
-        "## Invariants",
-        "All `status: active` rules below are binding.",
+        "## Invariants (Netie corpus)",
+        "All `status: active` rules below are binding inside this domain.",
         "",
     ]
     for art in rules:
-        lines.append(f"### {art.id} — {art.meta.get('title')}")
+        lines.append(f"### {art.id} - {art.meta.get('title')}")
         lines.append("")
         rule_body = art.body.strip()
-        # Extract ## Rule section if present
         m = re.search(r"## Rule\s*\n+(.*?)(?=\n## |\Z)", rule_body, re.DOTALL)
         if m:
             lines.append(m.group(1).strip())
@@ -374,12 +435,12 @@ def render_claude_md(rules: list[Artifact]) -> str:
         lines.append("")
     lines.extend(
         [
-            "## Subagents",
-            "Preflight KB search + `PREFLIGHT: HIT|PARTIAL|MISS` before Agent teams.",
-            "Record shape + rationale in `~\\.claude\\workflows\\`. HIT → Fable + cited files only.",
+            "## Subagents (Netie/Cortex lanes)",
+            "Preflight `docs/subagents_findings` + KB search. Emit `PREFLIGHT: HIT|PARTIAL|MISS`.",
+            "HIT -> smaller agent + cited files. Record workflows under `~\\.claude\\workflows\\`.",
             "",
             "## Style",
-            "Do not weaken checks for green. Stop on cross-lane blockers. Verified ≠ assumed.",
+            "R-0012 laptop-ASCII in corpus. Do not weaken checks for green.",
             "",
         ]
     )
@@ -389,13 +450,18 @@ def render_claude_md(rules: list[Artifact]) -> str:
 def render_mdc(rules: list[Artifact]) -> str:
     lines = [
         "---",
-        "description: Netie KB active rules (generated). Do not hand-edit.",
-        "alwaysApply: true",
+        "description: >-",
+        "  Netie domain (KB, distill, orchestration learning). Activate for Netie-KB",
+        "  workspace or when user runs kb search / distill-session. Not the global OS.",
+        "alwaysApply: false",
         "---",
         "",
-        "# Netie — global rules (Cursor)",
+        "# Netie domain (Cursor)",
         "",
         "_Generated by `kb.py render`. Edit rules in `D:\\Netie-KB\\rules\\`._",
+        "",
+        "Global habits: `00-global-operating.mdc` (ADHD + Ponytail + repo findings).",
+        "Cortex engine laws: stay in the Cortex repo - do not paste them here.",
         "",
         SESSION_PROTOCOL,
         "",
@@ -405,16 +471,17 @@ def render_mdc(rules: list[Artifact]) -> str:
     for art in rules:
         m = re.search(r"## Rule\s*\n+(.*?)(?=\n## |\Z)", art.body, re.DOTALL)
         body = m.group(1).strip() if m else art.body.strip()[:300]
-        lines.append(f"**{art.id}** — {body}")
+        # Keep Netie mdc short: one line per rule title+first sentence
+        first = body.split("\n", 1)[0].strip()
+        lines.append(f"**{art.id}** - {first}")
         lines.append("")
     lines.extend(
         [
             "## Subagents",
-            "Preflight KB + `PREFLIGHT: HIT|PARTIAL|MISS` before Task spawn.",
-            "Composer = implement lane; Task = lens subagents. Not UI-only.",
+            "Preflight findings INDEX + `kb.py search`. HIT -> smaller agent.",
             "",
             "## Style",
-            "Do not weaken checks. Stop on blockers. Verified ≠ assumed.",
+            "Laptop-ASCII (R-0012). Do not weaken checks. Verified != assumed.",
             "",
         ]
     )
@@ -436,16 +503,19 @@ def cmd_render(_: argparse.Namespace) -> int:
     mdc_text = render_mdc(rules)
     claude_path.write_text(claude_text, encoding="utf-8")
     mdc_path.write_text(mdc_text, encoding="utf-8")
-    # Plain markdown for Cursor Settings → User Rules (no YAML frontmatter)
-    user_rules = mdc_text.split("---", 2)[-1].lstrip("\n") if mdc_text.startswith("---") else mdc_text
+    # Netie-only paste (legacy name) + global paste for Cursor User Rules
+    netie_paste = mdc_text.split("---", 2)[-1].lstrip("\n") if mdc_text.startswith("---") else mdc_text
     user_rules_path = generated / "USER_RULES_PASTE.md"
-    user_rules_path.write_text(user_rules, encoding="utf-8")
+    user_rules_path.write_text(netie_paste, encoding="utf-8")
+    global_path = generated / "GLOBAL_USER_RULES_PASTE.md"
+    global_path.write_text(GLOBAL_USER_RULES, encoding="utf-8")
     line_count = len(claude_text.splitlines())
     print(f"wrote {claude_path} ({line_count} lines)")
     print(f"wrote {mdc_path}")
     print(f"wrote {user_rules_path}")
+    print(f"wrote {global_path}")
     if line_count > 200:
-        print("WARNING: CLAUDE.md exceeds 200 lines — tighten rules", file=sys.stderr)
+        print("WARNING: CLAUDE.md exceeds 200 lines - tighten rules", file=sys.stderr)
         return 1
     return 0
 
@@ -494,6 +564,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main() -> int:
+    ensure_utf8_stdio()
     parser = build_parser()
     args = parser.parse_args()
     return int(args.func(args))

@@ -10,6 +10,11 @@ import subprocess
 import sys
 from pathlib import Path
 
+_SCRIPTS = Path(__file__).resolve().parent
+if str(_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS))
+from stdio_utf8 import ensure_utf8_stdio
+
 ROOT = Path(__file__).resolve().parents[1]
 GENERATED = ROOT / "generated"
 CLAUDE_SRC = GENERATED / "CLAUDE.md"
@@ -84,6 +89,7 @@ def _ensure_junction(link: Path, target: Path) -> None:
 
 
 def main() -> int:
+    ensure_utf8_stdio()
     parser = argparse.ArgumentParser()
     parser.add_argument("--force", action="store_true", help="overwrite local drift")
     parser.add_argument("--no-junction", action="store_true")

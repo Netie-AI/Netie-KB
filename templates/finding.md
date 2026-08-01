@@ -25,7 +25,7 @@ Exact steps to reproduce.
 
 ## Root cause class
 
-Not the symptom — the class (e.g. name binding, not UNNEST special-case).
+Not the symptom - the class (e.g. name binding, not UNNEST special-case).
 
 ## Invariant gap
 

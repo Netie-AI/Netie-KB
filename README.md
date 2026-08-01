@@ -2,7 +2,7 @@
 
 Private corpus of rules, workflows, findings, attacks, and skills for Claude Code and Cursor.
 
-**One source, two renderings.** Edit `rules/`, `workflows/`, etc. — never hand-edit `generated/`, `~/.claude/CLAUDE.md`, or `~/.cursor/rules/netie-kb.mdc`.
+**One source, two renderings.** Edit `rules/`, `workflows/`, etc. - never hand-edit `generated/`, `~/.claude/CLAUDE.md`, or `~/.cursor/rules/netie-kb.mdc`.
 
 ## Quick start
 
@@ -19,15 +19,27 @@ python scripts/sync_agents.py
 
 ## Session protocol
 
-**START:** `kb.py search "<keywords>"` — report rules / workflow / attacks in three lines.  
-**END:** `kb.py new finding` — at least one per session.
+**Netie domain:** `kb.py search` / `kb.py new finding` when working Netie/KB/distill.
+**Global OS:** `~/.cursor/rules/00-global-operating.mdc` (ADHD + Ponytail + findings).
 
 ## Promotion path
 
-Finding (unverified) → verified → Rule / Workflow / Attack → Skill
+Finding (unverified) -> verified -> Rule / Workflow / Attack -> Skill
 
 Only `status: active` rules render into agent globals. Unverified findings are searchable but never rendered.
 
+## Windows notes
+
+- Corpus text is laptop-ASCII only (R-0012): no em dash, `>=` glyphs, arrows, or curly quotes. `kb.py validate` enforces this.
+- PowerShell aliases `curl` to `Invoke-WebRequest`. Use `curl.exe` or `Invoke-RestMethod -Uri http://127.0.0.1:8010/healthz` for health checks.
+
+## Global vs domain
+
+- **Global Cursor OS:** `~/.cursor/rules/00-global-operating.mdc` (ADHD talk, Ponytail code, repo findings).
+- **Paste for Settings -> User Rules:** `generated/GLOBAL_USER_RULES_PASTE.md`
+- **Netie domain pack:** `generated/netie-kb.mdc` (`alwaysApply: false`) - KB invariants only.
+- **Cortex engine laws:** stay in the Cortex repo. Do not promote them into Netie globals.
+
 ## CI
 
-`validate` + `index` (no diff) + `render` (no diff on `generated/`).
+`validate` + Unicode `search` + `index` (no diff) + `render` (no diff on `generated/`), plus `search-windows` on `windows-latest`.

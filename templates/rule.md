@@ -17,7 +17,7 @@ supersedes: []
 
 ## Rule
 
-One invariant in ≤10 lines.
+One invariant in <=10 lines.
 
 ## Why
 
