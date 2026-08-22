@@ -139,6 +139,17 @@ records are kept, never deleted.
 Issues. A ticket may cite a rule; a finding may become a rule; a rule may be the
 `Confirmation` of a decision record. Tickets never live in the KB.
 
+### R-0014 - A working plan is executed to the end, not paused for reassurance
+
+Once a plan is agreed and its first stage has passed verification, execute the
+remaining stages without stopping to ask. Pause only for: a destructive or
+irreversible action outside the plan's stated scope, a verification failure,
+or a decision the plan explicitly reserved for the founder. "It worked - shall
+I continue?" is not a checkpoint, it is a stall. Report at stage boundaries by
+stating what was verified, then keep going. A blocked stage (service down,
+credentials needed) does not pause the whole plan - finish every unblocked
+stage first, then name the one blocker and exactly what would unblock it.
+
 ## Subagents (Netie/Cortex lanes)
 Preflight `docs/subagents_findings` + KB search. Emit `PREFLIGHT: HIT|PARTIAL|MISS`.
 HIT -> smaller agent + cited files. Record workflows under `~\.claude\workflows\`.
