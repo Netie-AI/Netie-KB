@@ -1,6 +1,6 @@
 # Netie KB - INDEX
 
-_Generated 2026-08-20 by `kb.py index`. Do not hand-edit._
+_Generated 2026-08-23 by `kb.py index`. Do not hand-edit._
 
 ## Rules
 
@@ -17,6 +17,7 @@ _Generated 2026-08-20 by `kb.py index`. Do not hand-edit._
 - **R-0010** `active` `high` - Zero errors in n trials bounds error at 3/n - claim <1% only at n>=300 (eval, statistics, trust, corpus)
 - **R-0012** `active` `high` - Laptop-ASCII only in corpus and CLI output - no em dash or fancy symbols (windows, encoding, cli, console, ascii, style)
 - **R-0013** `active` `high` - Every document belongs to one of eight tiers - no sixth file type per repo (documentation, naming, governance, structure, adr, prd, tickets)
+- **R-0014** `active` `high` - A working plan is executed to the end, not paused for reassurance (autonomy, plan, execution, session)
 
 ## Workflows
 
@@ -42,14 +43,16 @@ _Generated 2026-08-20 by `kb.py index`. Do not hand-edit._
 - **F-0002** `unverified` `high` - Exclusion fuzzy confirm chip  -  wolf to SKU via sku_name (exclusion, clarify, routing, envelope)
 - **F-0003** `unverified` `high` - L1 fallthrough on missed exclusion is not safe  -  must abstain or confirm (routing, query-skill, exclusion)
 - **F-0004** `unverified` `high` - Engine depth plan filed - ontology Act Distill horizons H0-H6 (strategy, ontology, distill, agentic)
-- **F-0005** `verified` `high` - Soft-skip acceptance harness reports green while the feature does not exist (acceptance, tdd, harness, skip, gates)
+- **F-0005** `active` `high` - Soft-skip acceptance harness reports green while the feature does not exist (acceptance, tdd, harness, skip, gates)
 - **F-0006** `unverified` `high` - Regex matching a word inside an identifier repeats across sibling branches (routing, nl2sql, confidently-wrong, root-cause-class)
 - **F-0007** `unverified` `high` - A refusal that raises is a refusal the customer reads as a crash (manifest, fail-closed, abstain, envelope, false-green, bypass)
 - **F-0008** `unverified` `high` - A learning loop starves when its candidates cannot win (decision-layer, scoreboard, osr, jepa, false-capability, learning-loop, governor)
 - **F-0009** `unverified` `high` - Two ticket-runner lanes in one working tree are invisible to git and GitHub (orchestration, concurrency, ticket-runner, working-tree)
 - **F-0011** `active` `high` - A delegating branch can make a guard test pass without ever reaching the guard (testing, mutation, false-green, containment, delegation, pointer)
 - **F-0012** `unverified` `high` - A gate that intersects against a set it also mints is vacuous, not weak (false-green, vacuous-gate, manifest, self-issued-grant, R-0003, adversarial-verify, stop-list, REVERT-A, negation-blindness)
+- **F-0014** `unverified` `high` - UACC mimicry plus stale Playwright refs drop keys and signatures (uacc, playwright, mcp, typing, lag, signature, R-0001)
 - **F-0010** `unverified` `medium` - Screen recall daemon seals window titles to disk with no retention bound (privacy, capture, retention, disclosure, fail-closed, pointer)
+- **F-0015** `active` `medium` - Appending defs after the __main__ guard leaves the CLI dead while every test passes (entrypoint, cli, import-vs-execute, r0001)
 
 ## Tag cloud
 
@@ -73,10 +76,12 @@ _Generated 2026-08-20 by `kb.py index`. Do not hand-edit._
 - `openapi` (2)
 - `corpus` (2)
 - `demo` (2)
+- `cli` (2)
 - `orchestration` (2)
 - `exclusion` (2)
 - `pointer` (2)
 - `custody` (2)
+- `R-0001` (2)
 - `injection` (2)
 - `human-in-the-loop` (2)
 - `invariant` (1)
@@ -94,7 +99,6 @@ _Generated 2026-08-20 by `kb.py index`. Do not hand-edit._
 - `visibility` (1)
 - `windows` (1)
 - `encoding` (1)
-- `cli` (1)
 - `console` (1)
 - `ascii` (1)
 - `style` (1)
@@ -105,6 +109,10 @@ _Generated 2026-08-20 by `kb.py index`. Do not hand-edit._
 - `adr` (1)
 - `prd` (1)
 - `tickets` (1)
+- `autonomy` (1)
+- `plan` (1)
+- `execution` (1)
+- `session` (1)
 - `release` (1)
 - `coordination` (1)
 - `architecture` (1)
@@ -159,12 +167,20 @@ _Generated 2026-08-20 by `kb.py index`. Do not hand-edit._
 - `master-key` (1)
 - `key-wrap` (1)
 - `R-0011` (1)
-- `R-0001` (1)
 - `backup-bypass` (1)
 - `openvault` (1)
 - `silent-degradation` (1)
 - `migration` (1)
 - `tested-defect` (1)
+- `uacc` (1)
+- `playwright` (1)
+- `mcp` (1)
+- `typing` (1)
+- `lag` (1)
+- `signature` (1)
+- `entrypoint` (1)
+- `import-vs-execute` (1)
+- `r0001` (1)
 - `table-functions` (1)
 - `escape` (1)
 - `unnest` (1)
