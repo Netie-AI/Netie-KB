@@ -150,6 +150,27 @@ stating what was verified, then keep going. A blocked stage (service down,
 credentials needed) does not pause the whole plan - finish every unblocked
 stage first, then name the one blocker and exactly what would unblock it.
 
+### R-0015 - Never launch or close the founder's software - attach and distill only
+
+Agents never start, restart, or kill the founder's desktop software. Grok Bot.exe,
+Cursor, and every other user-facing app open and close only by the founder's own hand.
+Cursor is the founder's primary tool - never close it, not even to free RAM.
+When the founder opens an app voluntarily, the crew's job is to observe and distill
+(skill_distill captures), not to drive, manage, or relaunch it. Keep-alive automation
+covers estate services only (Docker, Plane, Crew, OpenVault); a desktop app is not a
+service. If an app is in the way, report it and wait for the founder.
+
+### R-0016 - Distilled skills live in Netie-KB and are served from one registry
+
+Every distilled skill, rule, workflow, and finding lands in D:\Netie-KB via
+`kb.py new` and syncs through the GitHub remote (Netie-AI/Netie-KB). Before
+authoring or re-deriving a skill, search the registry first: locally
+`python D:\Netie-KB\scripts\kb.py search "<keywords>"`, remotely the KB skill
+server (`scripts/skill_server.py`, MCP + REST, default 127.0.0.1:8030).
+Cloud agents and containers either clone the KB or call the hosted server;
+no lane keeps a private skills folder. Per-repo rule packs (CLAUDE.md,
+netie-kb.mdc) are rendered outputs of this corpus, never hand-edited.
+
 ## Subagents (Netie/Cortex lanes)
 Preflight `docs/subagents_findings` + KB search. Emit `PREFLIGHT: HIT|PARTIAL|MISS`.
 HIT -> smaller agent + cited files. Record workflows under `~\.claude\workflows\`.

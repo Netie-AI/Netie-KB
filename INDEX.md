@@ -1,6 +1,6 @@
 # Netie KB - INDEX
 
-_Generated 2026-08-24 by `kb.py index`. Do not hand-edit._
+_Generated 2026-08-25 by `kb.py index`. Do not hand-edit._
 
 ## Rules
 
@@ -10,6 +10,7 @@ _Generated 2026-08-24 by `kb.py index`. Do not hand-edit._
 - **R-0007** `active` `critical` - Verify the gate can fail before trusting it green (ci, testing, importlinter, verification)
 - **R-0009** `active` `critical` - Never hand-author generated artifacts (contract, openapi, generation, drift)
 - **R-0011** `active` `critical` - A silent fallback is a lie (demo, fallback, envelope, visibility)
+- **R-0015** `active` `critical` - Never launch or close the founder's software - attach and distill only (autonomy, desktop, grok-bot, cursor, crew)
 - **R-0004** `active` `high` - Fix the root cause class, not the symptom (security, manifest, sql, name-binding)
 - **R-0005** `active` `high` - A control that refuses legitimate work is a failure (security, manifest, enforcement, false-positive)
 - **R-0006** `active` `high` - Check git log before amend; never git add -A (git, multi-lane, workflow)
@@ -18,6 +19,7 @@ _Generated 2026-08-24 by `kb.py index`. Do not hand-edit._
 - **R-0012** `active` `high` - Laptop-ASCII only in corpus and CLI output - no em dash or fancy symbols (windows, encoding, cli, console, ascii, style)
 - **R-0013** `active` `high` - Every document belongs to one of eight tiers - no sixth file type per repo (documentation, naming, governance, structure, adr, prd, tickets)
 - **R-0014** `active` `high` - A working plan is executed to the end, not paused for reassurance (autonomy, plan, execution, session)
+- **R-0016** `active` `high` - Distilled skills live in Netie-KB and are served from one registry (skills, distill, mcp, registry, sync)
 
 ## Workflows
 
@@ -56,6 +58,7 @@ _Generated 2026-08-24 by `kb.py index`. Do not hand-edit._
 - **F-0019** `active` `high` - Uncommitted work on a shared branch is lost to another lane's checkout within the hour (git, R-0008, R-0006, lanes)
 - **F-0020** `unverified` `high` - A refusal laundered into a confident badge by an unknown-enum default, two hops upstream of the envelope (dms, cortex, envelope, badge, refusal, abstain, default, prd-routing)
 - **F-0021** `active` `high` - A literal list standing in for an intent class certifies every phrasing it forgot (refusal-gate, intent-classification, confidently-wrong, demo-router)
+- **F-0022** `active` `high` - Estate law in one file did not bind the lane that auto-opened Grok Bot (grok-bot, autonomy, rules-distribution)
 - **F-0010** `unverified` `medium` - Screen recall daemon seals window titles to disk with no retention bound (privacy, capture, retention, disclosure, fail-closed, pointer)
 - **F-0015** `active` `medium` - Appending defs after the __main__ guard leaves the CLI dead while every test passes (entrypoint, cli, import-vs-execute, r0001)
 - **F-0018** `active` `medium` - A generated benchmark at n above 300 finds the unfixed half of an already-reported defect (eval, bench, R-0010, ontology)
@@ -73,6 +76,7 @@ _Generated 2026-08-24 by `kb.py index`. Do not hand-edit._
 - `adversarial` (3)
 - `git` (3)
 - `eval` (3)
+- `autonomy` (3)
 - `ontology` (3)
 - `fail-closed` (3)
 - `pointer` (3)
@@ -88,6 +92,10 @@ _Generated 2026-08-24 by `kb.py index`. Do not hand-edit._
 - `corpus` (2)
 - `demo` (2)
 - `cli` (2)
+- `grok-bot` (2)
+- `skills` (2)
+- `distill` (2)
+- `mcp` (2)
 - `orchestration` (2)
 - `exclusion` (2)
 - `confidently-wrong` (2)
@@ -120,10 +128,14 @@ _Generated 2026-08-24 by `kb.py index`. Do not hand-edit._
 - `adr` (1)
 - `prd` (1)
 - `tickets` (1)
-- `autonomy` (1)
 - `plan` (1)
 - `execution` (1)
 - `session` (1)
+- `desktop` (1)
+- `cursor` (1)
+- `crew` (1)
+- `registry` (1)
+- `sync` (1)
 - `release` (1)
 - `coordination` (1)
 - `architecture` (1)
@@ -137,7 +149,6 @@ _Generated 2026-08-24 by `kb.py index`. Do not hand-edit._
 - `clarify` (1)
 - `query-skill` (1)
 - `strategy` (1)
-- `distill` (1)
 - `agentic` (1)
 - `acceptance` (1)
 - `tdd` (1)
@@ -181,7 +192,6 @@ _Generated 2026-08-24 by `kb.py index`. Do not hand-edit._
 - `migration` (1)
 - `tested-defect` (1)
 - `playwright` (1)
-- `mcp` (1)
 - `typing` (1)
 - `lag` (1)
 - `signature` (1)
@@ -205,6 +215,7 @@ _Generated 2026-08-24 by `kb.py index`. Do not hand-edit._
 - `refusal-gate` (1)
 - `intent-classification` (1)
 - `demo-router` (1)
+- `rules-distribution` (1)
 - `table-functions` (1)
 - `escape` (1)
 - `unnest` (1)
@@ -218,5 +229,4 @@ _Generated 2026-08-24 by `kb.py index`. Do not hand-edit._
 - `vault` (1)
 - `secrets` (1)
 - `recipe` (1)
-- `skills` (1)
 

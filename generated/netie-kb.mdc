@@ -60,6 +60,10 @@ Include: expected vs actual, repro steps, root cause CLASS, which invariant shou
 
 **R-0014** - Once a plan is agreed and its first stage has passed verification, execute the
 
+**R-0015** - Agents never start, restart, or kill the founder's desktop software. Grok Bot.exe,
+
+**R-0016** - Every distilled skill, rule, workflow, and finding lands in D:\Netie-KB via
+
 ## Subagents
 Preflight findings INDEX + `kb.py search`. HIT -> smaller agent.
 
