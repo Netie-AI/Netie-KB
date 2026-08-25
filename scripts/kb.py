@@ -249,6 +249,7 @@ def cmd_new(args: argparse.Namespace) -> int:
     text = template_path.read_text(encoding="utf-8")
     text = text.replace("R-XXXX", new_id).replace("W-XXXX", new_id)
     text = text.replace("F-XXXX", new_id).replace("A-XXXX", new_id)
+    text = text.replace("S-XXXX", new_id)
     text = text.replace("TITLE", args.title)
     if args.tags:
         tag_yaml = yaml.safe_dump(args.tags, default_flow_style=True).strip()
@@ -292,6 +293,7 @@ def cmd_promote(args: argparse.Namespace) -> int:
     text = template_path.read_text(encoding="utf-8")
     text = text.replace("R-XXXX", new_id).replace("W-XXXX", new_id)
     text = text.replace("F-XXXX", new_id).replace("A-XXXX", new_id)
+    text = text.replace("S-XXXX", new_id)
     text = text.replace("TITLE", str(source.meta.get("title", "promoted")))
     meta, _ = split_frontmatter(text)
     meta["status"] = "active"
