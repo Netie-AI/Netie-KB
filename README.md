@@ -26,7 +26,8 @@ python scripts/sync_agents.py
 
 Finding (unverified) -> verified -> Rule / Workflow / Attack -> Skill
 
-Only `status: active` rules render into agent globals. Unverified findings are searchable but never rendered.
+Only `status: active` rules render into agent globals. Unverified findings never
+render. Default `kb.py search` omits them; pass `--include-unverified` to see them.
 
 ## Windows notes
 
@@ -42,4 +43,5 @@ Only `status: active` rules render into agent globals. Unverified findings are s
 
 ## CI
 
-`validate` + Unicode `search` + `index` (no diff) + `render` (no diff on `generated/`), plus `search-windows` on `windows-latest`.
+`validate` + Unicode `search` + `index` (no diff) + `render` (no diff on `generated/`)
++ unittest planted-render hop, plus `search-windows` on `windows-latest`.

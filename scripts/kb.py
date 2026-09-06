@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
@@ -21,7 +22,15 @@ if str(_SCRIPTS) not in sys.path:
 from corpus_ascii import check_corpus_text
 from stdio_utf8 import ensure_utf8_stdio
 
-ROOT = Path(__file__).resolve().parents[1]
+
+def _kb_root() -> Path:
+    raw = os.environ.get("NETIE_KB_ROOT", "").strip()
+    if raw:
+        return Path(raw).resolve()
+    return Path(__file__).resolve().parents[1]
+
+
+ROOT = _kb_root()
 SCHEMA_PATH = ROOT / "schema" / "frontmatter.json"
 KIND_DIRS = {
     "rule": ROOT / "rules",

@@ -20,6 +20,7 @@ jobs:
       - run: git diff --exit-code INDEX.md
       - run: python scripts/kb.py render
       - run: git diff --exit-code generated/
+      - run: python -m unittest discover -s tests -q
 
   search-windows:
     runs-on: windows-latest
